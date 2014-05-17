@@ -4,7 +4,7 @@ var spawn = require('child_process').spawn;
 var gui = require('nw.gui');
 var findupSync = require('findup-sync');
 var currentPath = require('current-path');
-var displayNotification = require('display-notification');
+var displayNotification = require('growl');
 var util = require('./node-util');
 var getGulpTasks = require('./get-gulp-tasks');
 
@@ -16,7 +16,7 @@ function runTask(taskName) {
 	// https://github.com/rogerwang/node-webkit/issues/213
 	// so I don't have to hardcode the node path
 	var gulpPath = path.join(util.dirname, 'node_modules', 'gulp', 'bin', 'gulp.js');
-	var cp = spawn('/usr/local/bin/node', [gulpPath, taskName, '--no-color']);
+	var cp = spawn('C:\\Program\ Files\\nodejs\\node.cmd', [gulpPath, taskName, '--no-color']);
 
 	cp.stdout.setEncoding('utf8');
 	cp.stdout.on('data', function (data) {
@@ -29,22 +29,19 @@ function runTask(taskName) {
 	cp.stderr.setEncoding('utf8');
 	cp.stderr.on('data', function (data) {
 		console.error(data);
-		displayNotification({text: '[error] ' + data});
+		displayNotification('[error] ' + data);
 	});
 
 	cp.on('exit', function (code) {
 		if (code === 0) {
-			displayNotification({
-				title: 'gulp',
-				subtitle: 'Finished running tasks'
+			displayNotification('Finished running gulp tasks', {
+				title: 'gulp'
 			});
 		} else {
 			console.error('Exited with error code ' + code);
 
-			displayNotification({
-				title: 'gulp',
-				subtitle: 'Exited with error code ' + code,
-				sound: 'Basso'
+			displayNotification('Exited with error code ' + code, {
+				title: 'gulp'
 			});
 		}
 	});

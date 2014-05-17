@@ -2,12 +2,13 @@
 var path = require('path');
 var execFile = require('child_process').execFile;
 var _ = require('lodash');
+var util = require('./node-util');
 
-var gulpPath = path.join(__dirname, 'node_modules', 'gulp', 'bin', 'gulp.js');
+var gulpPath = path.join(util.dirname, 'node_modules', 'gulp', 'bin', 'gulp.js');
 var re = /] (?:├|└)─[^\w]+(\w+)/g;
 
 module.exports = function (cb) {
-	execFile('/usr/local/bin/node', [gulpPath, '--tasks', '--no-color'], function (err, stdout) {
+	execFile('C:\\Program\ Files\\nodejs\\node.cmd', [gulpPath, '--tasks', '--no-color'], function (err, stdout) {
 		if (err) {
 			return cb(err);
 		}
